@@ -1,1 +1,1 @@
-# rate-mu-ui
+# rate-my-ui
