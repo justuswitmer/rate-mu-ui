@@ -1,15 +1,15 @@
-import clientPromise from "../lib/mongodb";
+import clientPromise from "../../lib/mongodb";
 
-export default function Top({ movies }) {
+export default function Movies({ movies }) {
   return (
     <div>
-      <h1>Top 1000 Movies of All Time</h1>
+      <h1 className="underline font-bold text-3xl text-center">Top 20 Movies of All Time</h1>
       <p>
         <small>(According to Metacritic)</small>
       </p>
       <ul>
         {movies.map((movie) => (
-          <li>
+          <li key={movie.title}>
             <h2>{movie.title}</h2>
             <h3>{movie.metacritic}</h3>
             <p>{movie.plot}</p>
@@ -20,7 +20,7 @@ export default function Top({ movies }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const client = await clientPromise;
   const db = client.db(process.env.MONGODB_DB);
 
@@ -28,7 +28,7 @@ export async function getStaticProps() {
     .collection("movies")
     .find({})
     .sort({ metacritic: -1 })
-    .limit(1000)
+    .limit(20)
     .toArray();
 
   return {
